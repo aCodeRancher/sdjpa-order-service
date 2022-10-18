@@ -27,7 +27,7 @@ public class ProductRepositoryTest {
         assertNotNull(savedProduct);
         assertNotNull(savedProduct.getId());
 
-        Product fetchedProduct = productRepository.getById(savedProduct.getId());
+        Product fetchedProduct = productRepository.findById(savedProduct.getId()).get();
 
         assertNotNull(fetchedProduct);
         assertNotNull(fetchedProduct.getId());
