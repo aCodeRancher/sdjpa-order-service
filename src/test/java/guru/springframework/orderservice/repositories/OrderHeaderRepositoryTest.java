@@ -62,6 +62,8 @@ class OrderHeaderRepositoryTest {
 
         assertNotNull(fetchedOrder);
         assertEquals(fetchedOrder.getOrderLines().size(), 1);
+        Set<OrderLine> orderlines = fetchedOrder.getOrderLines();
+        orderlines.forEach( ol -> ol.getProduct().getDescription().equals("test product"));
     }
 
     @Test
