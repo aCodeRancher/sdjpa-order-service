@@ -14,10 +14,10 @@ public class Product extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ProductStatus productStatus;
 
-    @ManyToMany
-    @JoinTable(name = "product_category",
-        joinColumns = @JoinColumn(name = "product_id"),
-        inverseJoinColumns = @JoinColumn(name = "category_id"))
+    @ManyToMany (mappedBy ="products")
+  //@JoinTable(name = "product_category",
+     //  joinColumns = @JoinColumn(name = "product_id"),
+     //   inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories;
 
     public String getDescription() {
