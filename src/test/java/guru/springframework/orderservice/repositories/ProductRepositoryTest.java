@@ -1,5 +1,6 @@
 package guru.springframework.orderservice.repositories;
 
+import guru.springframework.orderservice.domain.Category;
 import guru.springframework.orderservice.domain.ProductStatus;
 import guru.springframework.orderservice.domain.Product;
 import org.junit.jupiter.api.Test;
@@ -7,6 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("local")
@@ -23,7 +28,10 @@ class ProductRepositoryTest {
 
         assertNotNull(product);
         assertNotNull(product.getCategories());
-
+        Set<Category> categories = product.getCategories();
+        Predicate<Category> cat1 = cat -> cat.getDescription().equals("CAT1");
+        Predicate<Category> cat3 = cat -> cat.getDescription().equals("CAT3");
+        assertTrue(categories.stream().allMatch(cat1.or(cat3)));
     }
 
     @Test
