@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
-
 import java.util.Set;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -26,6 +24,9 @@ class OrderHeaderRepositoryTest {
 
     @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    OrderLineRepository orderLineRepository;
 
     Product product;
 
@@ -56,6 +57,11 @@ class OrderHeaderRepositoryTest {
         assertNotNull(savedOrder.getId());
         assertNotNull(savedOrder.getOrderLines());
         assertEquals(savedOrder.getOrderLines().size(), 1);
+        Set<OrderLine> orderLineSet =  savedOrder.getOrderLines();
+        orderLineSet.stream().forEach( ol -> {
+            OrderLine savedOL = orderLineRepository.findById(ol.getId()).get();
+            assertNotNull(savedOL);
+        });
 
         OrderHeader fetchedOrder = orderHeaderRepository.getById(savedOrder.getId());
 
