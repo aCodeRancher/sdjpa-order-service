@@ -41,8 +41,15 @@ class OrderHeaderRepositoryTest {
         product = productRepository.saveAndFlush(newProduct);
 
         customer = new Customer();
+        customer.setName("John Tom");
+        customer.setEmail("jt@gmail.com");
         customer.setPhone("5712401234");
-
+        Address address = new Address();
+        address.setAddress("1000, Taylor Street");
+        address.setCity("Arlington");
+        address.setState("VA");
+        address.setZipCode("22201");
+        customer.setAddress(address);
     }
 
     @Test
@@ -72,22 +79,23 @@ class OrderHeaderRepositoryTest {
         OrderHeader oh = fetchedOrderItr.next();
         assertTrue(oh.getId()!=null);
 
-    }
+        assertTrue(fetchedCustomer.getEmail().equals("jt@gmail.com"));
+        assertTrue(fetchedCustomer.getName().equals("John Tom"));
+        assertTrue(fetchedCustomer.getAddress().getZipCode().equals("22201"));
+     }
 
     @Test
     void testSaveOrder() {
         OrderHeader orderHeader = new OrderHeader();
         orderHeader.setCustomer(customer);
-        OrderHeader savedOrder = orderHeaderRepository.save(orderHeader);
 
-        assertNotNull(savedOrder);
-        assertNotNull(savedOrder.getId());
+        Set<OrderHeader> orderHeaderSet = new HashSet<>();
+        orderHeaderSet.add(orderHeader);
+        customer.setOrderHeaderSet(orderHeaderSet);
+        customerRepository.save(customer);
 
-        OrderHeader fetchedOrder = orderHeaderRepository.getById(savedOrder.getId());
+       Customer foundCustomer = orderHeaderRepository.findCustomerByName("John Tom");
+       assertEquals(foundCustomer.getOrderHeaderSet().size(),1);
 
-        assertNotNull(fetchedOrder);
-        assertNotNull(fetchedOrder.getId());
-        assertNotNull(fetchedOrder.getCreatedDate());
-        assertNotNull(fetchedOrder.getLastModifiedDate());
     }
 }
