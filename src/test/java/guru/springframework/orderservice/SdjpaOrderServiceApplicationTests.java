@@ -1,10 +1,10 @@
 package guru.springframework.orderservice;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
-@Disabled // not configured...
+@ActiveProfiles("local")
 @SpringBootTest
 class SdjpaOrderServiceApplicationTests {
 
