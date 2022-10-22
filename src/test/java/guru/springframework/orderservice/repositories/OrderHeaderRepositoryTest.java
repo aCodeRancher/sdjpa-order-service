@@ -96,6 +96,5 @@ class OrderHeaderRepositoryTest {
 
        Customer foundCustomer = orderHeaderRepository.findCustomerByName("John Tom");
        assertEquals(foundCustomer.getOrderHeaderSet().size(),1);
-
     }
 }
