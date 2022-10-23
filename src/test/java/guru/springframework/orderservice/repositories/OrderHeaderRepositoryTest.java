@@ -10,6 +10,8 @@ import org.springframework.test.context.ActiveProfiles;
 
 import jakarta.persistence.EntityNotFoundException;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -26,6 +28,9 @@ class OrderHeaderRepositoryTest {
 
     @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    OrderApprovalRepository orderApprovalRepository;
 
     Product product;
 
@@ -114,6 +119,9 @@ class OrderHeaderRepositoryTest {
 
         System.out.println("order saved and flushed");
 
+        //store the approval id of this order header for an upcoming usage below
+        Long approvalId = savedOrder.getOrderApproval().getId();
+
         orderHeaderRepository.deleteById(savedOrder.getId());
         orderHeaderRepository.flush();
 
@@ -122,6 +130,9 @@ class OrderHeaderRepositoryTest {
 
             assertNull(fetchedOrder);
         });
+
+        Optional<OrderApproval> emptyOa = orderApprovalRepository.findById(approvalId);
+        assertTrue(emptyOa.isEmpty());
     }
 
 }
