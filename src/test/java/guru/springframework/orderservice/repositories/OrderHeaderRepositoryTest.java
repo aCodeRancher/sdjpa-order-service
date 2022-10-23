@@ -8,8 +8,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.Set;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -57,11 +55,12 @@ class OrderHeaderRepositoryTest {
 
         OrderApproval approval = new OrderApproval();
         approval.setApprovedBy("me");
-        OrderApproval savedApproval = orderApprovalRepository.save(approval);
-        orderHeader.setOrderApproval(savedApproval);
+        orderHeader.setOrderApproval(approval);
 
         OrderHeader savedOrder = orderHeaderRepository.save(orderHeader);
-
+        Long orderApprovalId = savedOrder.getOrderApproval().getId();
+        OrderApproval approved = orderApprovalRepository.findById(orderApprovalId).get();
+        assertTrue(approved.getId().equals(orderApprovalId));
         orderHeaderRepository.flush();
 
         assertNotNull(savedOrder);
