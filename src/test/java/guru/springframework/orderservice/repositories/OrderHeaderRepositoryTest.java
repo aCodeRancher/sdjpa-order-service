@@ -10,6 +10,8 @@ import org.springframework.test.context.ActiveProfiles;
 
 import jakarta.persistence.EntityNotFoundException;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -26,6 +28,9 @@ class OrderHeaderRepositoryTest {
 
     @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    OrderApprovalRepository orderApprovalRepository;
 
     Product product;
 
@@ -118,6 +123,43 @@ class OrderHeaderRepositoryTest {
 
             assertNull(fetchedOrder);
         });
+    }
+
+    @Test
+    void testDeleteOrderHeader() {
+        OrderHeader orderHeader = new OrderHeader();
+        Customer customer = new Customer();
+        customer.setCustomerName("New Customer");
+        Customer savedCustomer = customerRepository.save(customer);
+
+        orderHeader.setCustomer(savedCustomer);
+
+        OrderLine orderLine = new OrderLine();
+        orderLine.setQuantityOrdered(5);
+        orderLine.setProduct(product);
+
+        orderHeader.addOrderLine(orderLine);
+
+        OrderApproval approval = new OrderApproval();
+        approval.setApprovedBy("me");
+
+        orderHeader.setOrderApproval(approval);
+
+        OrderHeader savedOrder = orderHeaderRepository.save(orderHeader);
+
+
+        orderHeaderRepository.flush();
+
+        Long approvalID = orderHeader.getOrderApproval().getId();
+
+
+        orderHeaderRepository.deleteById(savedOrder.getId());
+        orderHeaderRepository.flush();
+        Optional<OrderHeader> fetchedOrder = orderHeaderRepository.findById(savedOrder.getId());
+        assertTrue(fetchedOrder.isEmpty());
+        OrderApproval orderApproval = orderApprovalRepository.findById(approvalID).get();
+        assertNotNull(orderApproval);
+
     }
 
 }
