@@ -27,6 +27,9 @@ class OrderHeaderRepositoryTest {
     @Autowired
     ProductRepository productRepository;
 
+    @Autowired
+    OrderApprovalRepository orderApprovalRepository;
+
     Product product;
 
     @BeforeEach
@@ -111,7 +114,9 @@ class OrderHeaderRepositoryTest {
 
         orderHeader.addOrderLine(orderLine);
         OrderHeader savedOrder = orderHeaderRepository.saveAndFlush(orderHeader);
-
+        Long oa_id  =savedOrder.getOrderApproval().getId();
+        OrderApproval oa = orderApprovalRepository.findById(oa_id).get();
+        assertNotNull(oa);
         System.out.println("order saved and flushed");
 
         orderHeaderRepository.deleteById(savedOrder.getId());
@@ -122,6 +127,8 @@ class OrderHeaderRepositoryTest {
 
             assertNull(fetchedOrder);
         });
+
+        assertTrue(orderApprovalRepository.findById(oa_id).isEmpty());
     }
 
 }
