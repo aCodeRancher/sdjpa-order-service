@@ -48,8 +48,9 @@ public class DataLoadTest {
      *  {@code SELECT * FROM orderservice.order_header where id = 1 for update; }
      */
     @Test
+    @Rollback(value=false)
     void testDBLock() {
-        Long id = 55l;
+        Long id = 30106l;
 
         OrderHeader orderHeader = orderHeaderRepository.findById(id).get();
 
