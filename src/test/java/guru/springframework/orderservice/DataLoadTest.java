@@ -63,7 +63,7 @@ public class DataLoadTest {
 
     }
 
-    @Disabled
+    //@Disabled
     @Rollback(value = false)
     @Test
     void testDataLoader() {
@@ -85,6 +85,9 @@ public class DataLoadTest {
 
         OrderHeader orderHeader = new OrderHeader();
         orderHeader.setCustomer(customer);
+        OrderApproval orderApproval = new OrderApproval();
+        orderApproval.setOrderHeader(orderHeader);
+        orderApproval.setApprovedBy("me");
 
         products.forEach(product -> {
             OrderLine orderLine = new OrderLine();
@@ -92,6 +95,7 @@ public class DataLoadTest {
             orderLine.setQuantityOrdered(random.nextInt(20));
             //orderHeader.getOrderLines().add(orderLine);
             orderHeader.addOrderLine(orderLine);
+            orderHeader.setOrderApproval(orderApproval);
         });
 
         return orderHeaderRepository.save(orderHeader);
