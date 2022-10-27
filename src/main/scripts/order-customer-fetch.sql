@@ -120,4 +120,30 @@ where orderlines0_.order_header_id in
       (select orderheade0_.id from order_header orderheade0_ where orderheade0_.customer_id = ?)
 
 
-
+#without FetchType select for order approval
+select
+    orderappro0_.id as id1_2_1_,
+    orderappro0_.created_date as created_2_2_1_,
+    orderappro0_.last_modified_date as last_mod3_2_1_,
+    orderappro0_.approved_by as approved4_2_1_,
+    orderappro0_.order_header_id as order_he5_2_1_,
+    orderheade1_.id as id1_3_0_,
+    orderheade1_.created_date as created_2_3_0_,
+    orderheade1_.last_modified_date as last_mod3_3_0_,
+    orderheade1_.bill_to_address as bill_to_4_3_0_,
+    orderheade1_.bill_to_city as bill_to_5_3_0_,
+    orderheade1_.bill_to_state as bill_to_6_3_0_,
+    orderheade1_.bill_to_zip_code as bill_to_7_3_0_,
+    orderheade1_.customer_id as custome13_3_0_,
+    orderheade1_.order_status as order_st8_3_0_,
+    orderheade1_.shipping_address as shipping9_3_0_,
+    orderheade1_.shipping_city as shippin10_3_0_,
+    orderheade1_.shipping_state as shippin11_3_0_,
+    orderheade1_.shipping_zip_code as shippin12_3_0_
+from
+    order_approval orderappro0_
+        left outer join
+    order_header orderheade1_
+    on orderappro0_.order_header_id=orderheade1_.id
+where
+        orderappro0_.order_header_id=?
