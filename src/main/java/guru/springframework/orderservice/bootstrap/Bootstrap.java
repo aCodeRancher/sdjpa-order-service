@@ -19,7 +19,7 @@ public class Bootstrap implements CommandLineRunner {
     @Transactional
     @Override
     public void run(String... args) throws Exception {
-        OrderHeader orderHeader = orderHeaderRepository.findById(1L).get();
+        OrderHeader orderHeader = orderHeaderRepository.findById(30106L).get();
 
         orderHeader.getOrderLines().forEach(ol -> {
             System.out.println(ol.getProduct().getDescription());
