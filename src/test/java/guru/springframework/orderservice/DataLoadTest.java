@@ -83,7 +83,7 @@ public class DataLoadTest {
 
     }
 
-    @Disabled
+  //  @Disabled
     @Rollback(value = false)
     @Test
     void testDataLoader() {
@@ -150,6 +150,7 @@ public class DataLoadTest {
                     Product p1 = new Product();
                     p1.setDescription(description);
                     p1.setProductStatus(ProductStatus.NEW);
+                    p1.setQuantityOnHand(10);
                     return productRepository.save(p1);
                 });
     }
