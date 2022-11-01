@@ -34,10 +34,10 @@ public class CustomerVersionTest {
 
         savedCustomer.setCustomerName("Test Customer 2");
         Customer savedCustomer1 = customerRepository.saveAndFlush(savedCustomer);
+        Customer savedCustomer2 = customerRepository.saveAndFlush(savedCustomer);
+        assertTrue(savedCustomer2.getVersion()==1);
 
-        assertTrue(savedCustomer1.getVersion()==1);
-
-        customerRepository.delete(savedCustomer1);
+        customerRepository.delete(savedCustomer2);
     }
 
     @Test
