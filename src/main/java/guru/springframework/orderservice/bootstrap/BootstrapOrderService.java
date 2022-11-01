@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Created by jt on 6/9/22.
  */
-//this is assignment 21 test commit
+
 @Service
 public class BootstrapOrderService {
     @Autowired
@@ -17,7 +17,7 @@ public class BootstrapOrderService {
 
     @Transactional
     public void readOrderData(){
-        OrderHeader orderHeader = orderHeaderRepository.findById(30106L).get();
+        OrderHeader orderHeader = orderHeaderRepository.findById(1L).get();
 
         orderHeader.getOrderLines().forEach(ol -> {
             System.out.println(ol.getProduct().getDescription());
