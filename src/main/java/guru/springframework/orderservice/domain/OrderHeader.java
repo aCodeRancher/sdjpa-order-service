@@ -67,6 +67,17 @@ public class OrderHeader extends BaseEntity {
     @Fetch(FetchMode.SELECT)
     private OrderApproval orderApproval;
 
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
+    @Version
+    private Integer version;
+
     public OrderApproval getOrderApproval() {
         return orderApproval;
     }
