@@ -29,6 +29,7 @@ public class CustomerValidationTest {
     private String phone = "7031231234";
     private String name = "Tester Tester";
     private String invalidEmail = "test.com";
+    private String invalidEmailLength = "@m.ai";
     //State name has length > 30
     private String invalidState = "01234567890123456789012345678901";
     private String invalidZip = "01234567890123456789012345678901";
@@ -53,6 +54,25 @@ public class CustomerValidationTest {
          customer.setEmail(email);
          Customer customerSaved = customerRepository.save(customer);
          assertNotNull(customerSaved);
+    }
+
+    @Test
+    void emailLengthValidity(){
+        Customer customer = new Customer();
+        customer.setCustomerName(name);
+        customer.setPhone(phone);
+        customer.setEmail(invalidEmailLength);
+        Address address = new Address();
+        address.setAddress(street);
+        address.setCity(city);
+        address.setState(state);
+        address.setZipCode(zipCode);
+        customer.setAddress(address);
+        assertThrows(ConstraintViolationException.class, ()->customerRepository.save(customer));
+
+        customer.setEmail(email);
+        Customer customerSaved = customerRepository.save(customer);
+        assertNotNull(customerSaved);
     }
 
     @Test
