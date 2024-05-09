@@ -50,8 +50,8 @@ public class DataLoadTest {
     @Test
     @Rollback(value=false)
     void testDBLock() {
-        Long id = 30106l;
-
+        //Long id = 30106l;
+         Long id =1l;
         OrderHeader orderHeader = orderHeaderRepository.findById(id).get();
 
         Address billTo = new Address();
